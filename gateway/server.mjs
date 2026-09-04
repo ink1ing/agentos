@@ -35,13 +35,15 @@ const readBody = (req) =>
 export function createServer() {
   return http.createServer(async (req, res) => {
     const host = req.headers.host || `127.0.0.1:${CONFIG.port}`;
+    const proto = (req.headers["x-forwarded-proto"] || "http").split(",")[0].trim();
     const url = new URL(req.url, `http://${host}`);
-    const base = `http://${host}`;
+    const base = `${proto}://${host}`;
+    const isRead = req.method === "GET" || req.method === "HEAD";
     try {
-      if (req.method === "GET" && url.pathname === "/health") {
+      if (isRead && url.pathname === "/health") {
         return json(res, 200, { ok: true, facilitator: CONFIG.facilitator, network: CONFIG.network, asset: CONFIG.asset });
       }
-      if (req.method === "GET" && url.pathname === "/.well-known/agent-store.json") {
+      if (isRead && url.pathname === "/.well-known/agent-store.json") {
         const raw = await loadCatalog();
         return json(res, 200, toAgentStore(raw, base));
       }
@@ -130,7 +132,7 @@ export function createServer() {
       }
 
       const pickupMatch = url.pathname.match(/^\/pickup\/([A-Za-z0-9_-]+)$/);
-      if (req.method === "GET" && pickupMatch) {
+      if (isRead && pickupMatch) {
         const order = findByPickupToken(pickupMatch[1]);
         if (!order) return html(res, 404, "<h2>Invalid pickup link</h2>");
         return html(
@@ -146,14 +148,14 @@ export function createServer() {
       }
 
       const orderMatch = url.pathname.match(/^\/agent\/order\/([^/]+)$/);
-      if (req.method === "GET" && orderMatch) {
+      if (isRead && orderMatch) {
         const order = findByOrderNumber(decodeURIComponent(orderMatch[1]));
         if (!order) return json(res, 404, { error: "order not found" });
         const { pickupToken, ...pub } = order;
         return json(res, 200, { ...pub, pickupUrl: `${base}/pickup/${pickupToken}` });
       }
 
-      if (url.pathname === "/") {
+      if (isRead && url.pathname === "/") {
         return json(res, 200, {
           service: "agentpay-gateway",
           catalog: "/.well-known/agent-store.json",
