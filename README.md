@@ -19,7 +19,9 @@ node agent/buy.mjs apple
 npm test
 ```
 
-Claude Desktop: merge `mcp/claude-desktop.json` into your MCP config, keep the gateway on `:8402`, then say *buy me Apple One under ten dollars*.
+Public gateway: [https://pay.shangdian.me](https://pay.shangdian.me) (`/.well-known/agent-store.json`, `POST /agent/quote/:id`, x402 `POST /agent/buy/:id`). Facilitator is mock until B402 merchant keys are set.
+
+Claude Desktop: merge `mcp/claude-desktop.json` into your MCP config. Local gateway: leave `GATEWAY` unset. Remote: `GATEWAY=https://pay.shangdian.me`. Then say *buy me Apple One under ten dollars*.
 
 ## What the agent does
 
