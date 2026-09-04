@@ -11,7 +11,7 @@ const check = (ok, name, extra = "") => {
   if (!ok) failed++;
 };
 
-for (const f of ["README.md", "LICENSE", "SECURITY.md", ".gitignore", ".env.example", "package.json", "mcp/server.mjs", "gateway/server.mjs"]) {
+for (const f of ["README.md", "LICENSE", "SECURITY.md", ".gitignore", ".env.example", "package.json", "mcp/server.mjs", "gateway/server.mjs", "public/index.html", "public/shop.html", "snippet/agentpay.js"]) {
   check(fs.existsSync(path.join(ROOT, f)), `file ${f}`);
 }
 
@@ -23,6 +23,7 @@ check(gitignore.includes(".env") && gitignore.includes("gateway/outbox") && giti
 
 const readme = fs.readFileSync(path.join(ROOT, "README.md"), "utf8");
 check(/Track A/i.test(readme) && /x402/i.test(readme) && /Agent OS/i.test(readme), "README names Track A + Agent OS + x402");
+check(/pay\.shangdian\.me/.test(readme), "README links live gateway");
 
 const leak = spawnSync("rg", ["-n", "BEGIN (RSA )?PRIVATE KEY|sk-ant-|B402_PRIVATE_KEY=.+[A-Za-z0-9+/=]{40}", ROOT, "-g", "!.git"], { encoding: "utf8" });
 check(!leak.stdout?.trim(), "no private keys in tree", leak.stdout?.trim()?.split("\n")[0]);

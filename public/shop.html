@@ -1,0 +1,56 @@
+<title>Silas Store — agent-ready demo</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Apple One",
+  "offers": { "@type": "Offer", "price": "8.88", "priceCurrency": "USD" }
+}
+</script>
+<style>
+  :root { --bg:#f6f1e8; --ink:#1a1714; --mute:#6b6258; --line:#e2d8c8; --green:#0b7a3b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.45 ui-sans-serif, system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+  header { max-width: 720px; margin: 0 auto; padding: 28px 20px 8px; display: flex; justify-content: space-between; }
+  a { color: var(--green); }
+  main { max-width: 720px; margin: 0 auto; padding: 8px 20px 80px; }
+  h1 { font-size: 28px; letter-spacing: -0.03em; }
+  .grid { display: grid; gap: 12px; }
+  .item { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; gap: 12px; }
+  .qr { width: 88px; height: 88px; background:
+    repeating-linear-gradient(90deg, #111 0 6px, #fff 6px 10px),
+    repeating-linear-gradient(0deg, #111 0 6px, #fff 6px 10px);
+    image-rendering: pixelated; border-radius: 6px; flex: 0 0 88px; }
+  .pay { display: flex; gap: 14px; align-items: center; color: var(--mute); font-size: 13px; }
+  .note { margin-top: 28px; font-size: 13px; color: var(--mute); }
+</style>
+<header>
+  <strong>Silas Store</strong>
+  <span style="color:var(--mute);font-size:13px">USDT still collected by QR — until the script below</span>
+</header>
+<main>
+  <h1>Digital seats</h1>
+  <p>Production checkout on <a href="https://store.shangdian.me">store.shangdian.me</a> still asks for a screenshot. This page is the merchant-side demo: paste one script, agents can find the catalog.</p>
+  <div class="grid">
+    <div class="item" data-agentpay-name="Apple One" data-agentpay-price="8.88" data-agentpay-currency="USD">
+      <div>
+        <b>Apple One</b>
+        <div style="color:var(--mute)">$8.88 · instant code · under the $10 demo cap</div>
+      </div>
+      <div class="pay"><div class="qr" title="old USDT QR"></div>scan to pay</div>
+    </div>
+    <div class="item" data-agentpay-name="Notion team" data-agentpay-price="10.00" data-agentpay-currency="USD">
+      <div>
+        <b>Notion team</b>
+        <div style="color:var(--mute)">$10.00 · at the cap</div>
+      </div>
+      <div class="pay"><div class="qr"></div>scan to pay</div>
+    </div>
+  </div>
+  <p class="note">
+    Snippet on this page: <code>&lt;script src="/snippet/agentpay.js" data-gateway=""&gt;</code>
+    → injects <code>rel=agent-store</code> and the green agent-ready badge.
+    Buy for real (mock settle) on the <a href="/">AgentPay landing</a>.
+  </p>
+</main>
+<script src="/snippet/agentpay.js" data-gateway=""></script>

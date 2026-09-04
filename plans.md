@@ -1,7 +1,7 @@
 # AgentPay — Binance Agent OS Mini Hackathon 作戰計畫
 
 > 建立:2026-09-02 · 規則確認:2026-09-03
-> 狀態:**Phase 2 進行中**(mock 全鏈路已跑通;B402 協議已對齊,待商家憑證)
+> 狀態:**Phase 3** — 公開閘道 https://pay.shangdian.me 已上線(mock facilitator);待錄影與 X 提交
 > 截止:**2026-09-08 23:59 UTC**(約 5 天)
 > 官方:[agent-os](https://www.binance.com/en/agent-os) · 規則細節見 `docs/hackathon-rules.md`
 
@@ -53,7 +53,7 @@ Escrow 合約、KYC、真 SMTP、假商店 **全部砍掉**。評審看 30 秒�
 ### Day 1(9/3–9/4)— MCP,這是賽道 A 的命門
 - [x] 寫一個 MCP server(`mcp/server.mjs`):tools = `list_products` / `buy_product` / `get_order`
 - [x] MCP JSON-RPC 已驗證可買到 apple one;Claude Desktop 配置檔 `mcp/claude-desktop.json`(需本機把 JSON 合進設定)
-- [ ] 錄一段「對話購物」螢幕(即使付款仍是 mock) — 腳本見 pitch/video-script.md
+- [ ] 錄一段「對話購物」螢幕(即使付款仍是 mock) — 腳本見 pitch/video-script.md;公開頁 https://pay.shangdian.me 與 /shop 已可當 B-roll
 
 ### Day 2(9/4–9/5)— 真付款或可信 mock
 優先序:
@@ -67,8 +67,8 @@ Escrow 合約、KYC、真 SMTP、假商店 **全部砍掉**。評審看 30 秒�
 
 ### Day 3(9/5–9/6)— 影片與 GitHub
 - [ ] 30–45 秒 demo 影片腳本(見 §4),錄兩條:一條成功、一條備用
-- [ ] GitHub 公開 repo(ink1ing 帳號),README 用英文寫評審能 60 秒看懂的
-- [ ] 頁面截圖:agent-store.json、402 挑戰、取貨頁、outbox 收據
+- [x] GitHub 公開 repo https://github.com/ink1ing/agentos ,README 英文
+- [x] 公開落地頁可走 quote → 402 → mock settle → pickup;截圖可直接從 pay.shangdian.me 抓
 
 ### Day 4(9/6–9/7)— 提交包
 - [ ] 關注 @Binance 並轉發官方帖
@@ -137,6 +137,7 @@ shangdian-maintenance/x402/
 ├── gateway/                        ← 支付網關(對接真實目錄)
 ├── agent/buy.mjs                   ← CLI demo agent
 ├── snippet/agentpay.js
-├── mcp/                            ← Day 1
-└── pitch/                          ← Day 3–4
+├── mcp/
+├── public/                         ← landing + /shop
+└── pitch/
 ```

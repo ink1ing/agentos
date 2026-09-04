@@ -8,7 +8,8 @@ Claude Desktop / Claude Code
    list_products | quote_product | buy_product | get_order
         │  HTTP
         ▼
- gateway/server.mjs
+ gateway/server.mjs  (https://pay.shangdian.me)
+   GET  /  /shop  /snippet/agentpay.js
    GET  /.well-known/agent-store.json
    POST /agent/quote/:id     → confirmToken
    POST /agent/buy/:id       → 409 unless confirm, else 402 / settle

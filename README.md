@@ -19,9 +19,9 @@ node agent/buy.mjs apple
 npm test
 ```
 
-Public gateway: [https://pay.shangdian.me](https://pay.shangdian.me) (`/.well-known/agent-store.json`, `POST /agent/quote/:id`, x402 `POST /agent/buy/:id`). Facilitator is mock until B402 merchant keys are set.
+Live: [pay.shangdian.me](https://pay.shangdian.me) (landing + mock buy) · [shop demo](https://pay.shangdian.me/shop) (merchant snippet + badge) · [agent-store.json](https://pay.shangdian.me/.well-known/agent-store.json). Facilitator is mock until B402 merchant keys are set.
 
-Claude Desktop: merge `mcp/claude-desktop.json` into your MCP config. Local gateway: leave `GATEWAY` unset. Remote: `GATEWAY=https://pay.shangdian.me`. Then say *buy me Apple One under ten dollars*.
+Claude Desktop: merge `mcp/claude-desktop.json`. Local: `GATEWAY=http://localhost:8402`. Remote: `GATEWAY=https://pay.shangdian.me`. Then say *buy me Apple One under ten dollars*.
 
 ## What the agent does
 
@@ -42,6 +42,7 @@ Per-tx cap: **$10** (Agent OS x402 daily cap is $20). Demo SKUs: Apple One **$8.
 | `gateway/` | Catalog proxy, quote, x402 buy, pickup, receipts |
 | `mcp/server.mjs` | stdio MCP for Claude Desktop / Claude Code |
 | `agent/buy.mjs` | CLI buyer (same protocol as MCP) |
+| `public/` | Landing + merchant shop demo |
 | `snippet/agentpay.js` | Merchant `<script>` — JSON-LD scan + agent-ready badge |
 | `gateway/lib/wallet.mjs` | `MockWallet` now; Trust Wallet AgentKit / viem EIP-3009 later |
 | `docs/` | Protocol notes, B402, hackathon rules |

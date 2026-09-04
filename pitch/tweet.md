@@ -12,8 +12,9 @@ Track A · AgentPay
 One script makes a shop agent-ready. Claude lists SKUs, you confirm, x402 pays USDT on BNB Chain (Binance B402). Pickup link + receipt. No new account.
 
 Demo: Apple One $8.88 from a live catalog.
-GitHub: <REPO>
-Video: <VIDEO>
+Live: https://pay.shangdian.me
+GitHub: https://github.com/ink1ing/agentos
+Video: <VIDEO — unlisted YouTube / X upload>
 
 Built on Agent OS Pay (x402) + MCP.
 
@@ -23,14 +24,14 @@ Most shops still collect USDT with a static QR and a screenshot.
 
 AgentPay is the x402 MoonPay for merchants: paste one `<script>`, get `/.well-known/agent-store.json`. An MCP agent (Claude Desktop) can search, quote, wait for a human confirm, then settle via HTTP 402 → Binance OnchainPay B402 (USDT / BNB Chain). Buyer gets a pickup URL and a receipt. No signup.
 
-We wired it to a real digital-goods store (read-only). Demo SKU: Apple One $8.88, under the Agent OS $20/day x402 cap.
+We wired it to a real digital-goods store (read-only). Live gateway: https://pay.shangdian.me. Demo SKU: Apple One $8.88, under the Agent OS $20/day x402 cap.
 
 Track A · Agent OS Mini Hackathon
-GitHub: <REPO>
-Video: <VIDEO>
+GitHub: https://github.com/ink1ing/agentos
+Video: <VIDEO — unlisted YouTube / X upload>
 
 Not financial advice. Not available in prohibited jurisdictions.
 
 ## Quote-tweet first line (what people see unexpanded)
 
-AgentPay — one-line x402 checkout for AI agents. Claude buys Apple One in USDT on BNB Chain. Track A. <VIDEO> <REPO>
+AgentPay — one-line x402 checkout for AI agents. Claude buys Apple One in USDT on BNB Chain. Track A. <VIDEO — unlisted YouTube / X upload> https://github.com/ink1ing/agentos

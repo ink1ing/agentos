@@ -3,7 +3,7 @@
     "agentpay": {
       "command": "node",
       "args": ["/ABSOLUTE/PATH/TO/x402/mcp/server.mjs"],
-      "env": { "GATEWAY": "http://localhost:8402" }
+      "env": { "GATEWAY": "https://pay.shangdian.me" }
     }
   }
 }

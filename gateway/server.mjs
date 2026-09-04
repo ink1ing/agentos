@@ -1,6 +1,7 @@
 // AgentPay gateway: make a store agent-readable and x402-payable
 import http from "node:http";
-import { realpathSync } from "node:fs";
+import fs, { realpathSync } from "node:fs";
+import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { CONFIG } from "./config.mjs";
 import { loadCatalog, toAgentStore, findProduct } from "./lib/catalog.mjs";
@@ -10,15 +11,37 @@ import { createOrder, findByPickupToken, findByOrderNumber } from "./lib/orders.
 import { sendReceipt } from "./lib/mailer.mjs";
 import { issueConfirm, consumeConfirm } from "./lib/confirm.mjs";
 
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const CORS = {
+  "access-control-allow-origin": "*",
+  "access-control-allow-headers": "content-type, x-payment, x-confirm-token, user-agent",
+  "access-control-allow-methods": "GET, HEAD, POST, OPTIONS",
+  "access-control-expose-headers": "x-payment-response",
+};
 const json = (res, status, body, extra = {}) => {
   const data = JSON.stringify(body, null, 2);
-  res.writeHead(status, { "content-type": "application/json; charset=utf-8", ...extra });
+  res.writeHead(status, { "content-type": "application/json; charset=utf-8", ...CORS, ...extra });
   res.end(data);
 };
 const html = (res, status, body) => {
-  res.writeHead(status, { "content-type": "text/html; charset=utf-8" });
+  res.writeHead(status, { "content-type": "text/html; charset=utf-8", ...CORS });
   res.end(body);
 };
+const MIME = {
+  ".html": "text/html; charset=utf-8",
+  ".js": "text/javascript; charset=utf-8",
+  ".css": "text/css; charset=utf-8",
+  ".json": "application/json; charset=utf-8",
+  ".svg": "image/svg+xml",
+  ".md": "text/plain; charset=utf-8",
+};
+function sendFile(res, abs, extra = {}) {
+  const ext = path.extname(abs);
+  const type = MIME[ext] || "application/octet-stream";
+  const buf = fs.readFileSync(abs);
+  res.writeHead(200, { "content-type": type, "cache-control": "no-cache", ...CORS, ...extra });
+  res.end(buf);
+}
 const readBody = (req) =>
   new Promise((resolve) => {
     let buf = "";
@@ -40,6 +63,10 @@ export function createServer() {
     const base = `${proto}://${host}`;
     const isRead = req.method === "GET" || req.method === "HEAD";
     try {
+      if (req.method === "OPTIONS") {
+        res.writeHead(204, CORS);
+        return res.end();
+      }
       if (isRead && url.pathname === "/health") {
         return json(res, 200, { ok: true, facilitator: CONFIG.facilitator, network: CONFIG.network, asset: CONFIG.asset });
       }
@@ -156,12 +183,13 @@ export function createServer() {
       }
 
       if (isRead && url.pathname === "/") {
-        return json(res, 200, {
-          service: "agentpay-gateway",
-          catalog: "/.well-known/agent-store.json",
-          health: "/health",
-          mcp: "stdio mcp/server.mjs",
-        });
+        return sendFile(res, path.join(ROOT, "public/index.html"));
+      }
+      if (isRead && (url.pathname === "/shop" || url.pathname === "/shop.html")) {
+        return sendFile(res, path.join(ROOT, "public/shop.html"));
+      }
+      if (isRead && url.pathname === "/snippet/agentpay.js") {
+        return sendFile(res, path.join(ROOT, "snippet/agentpay.js"));
       }
       json(res, 404, { error: "not found" });
     } catch (err) {

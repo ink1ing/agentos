@@ -1,0 +1,195 @@
+<title>AgentPay</title>
+<style>
+  :root {
+    --bg: #0b0d0c;
+    --ink: #e8eee9;
+    --mute: #8a968d;
+    --line: #1e2620;
+    --acid: #7dffb1;
+    --warn: #ffd27a;
+    --card: #121614;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.45 "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; }
+  a { color: var(--acid); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header, main, footer { max-width: 920px; margin: 0 auto; padding: 0 24px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; padding-top: 28px; }
+  .mark { font-weight: 700; letter-spacing: -0.03em; }
+  .mark span { color: var(--acid); }
+  nav { display: flex; gap: 18px; font-size: 13px; color: var(--mute); }
+  h1 { font-size: clamp(40px, 7vw, 72px); line-height: 0.95; letter-spacing: -0.045em; margin: 48px 0 16px; font-weight: 650; }
+  .lede { font-size: 18px; color: var(--mute); max-width: 38em; }
+  .row { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 20px; margin: 36px 0; }
+  @media (max-width: 760px) { .row { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 18px 16px; }
+  .kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin: 0 0 8px; }
+  pre, code, .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre { margin: 0; font-size: 13px; overflow-x: auto; color: var(--acid); }
+  .steps { list-style: none; padding: 0; margin: 0; }
+  .steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+  .steps li:last-child { border-bottom: 0; }
+  .n { color: var(--acid); font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  button {
+    background: var(--acid); color: #06140c; border: 0; border-radius: 999px;
+    padding: 10px 16px; font: 600 14px/1 inherit; cursor: pointer;
+  }
+  button[disabled] { opacity: 0.45; cursor: not-allowed; }
+  button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .skus { display: grid; gap: 10px; }
+  .sku { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 10px; }
+  .sku b { display: block; }
+  .sku small { color: var(--mute); }
+  .price { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--acid); }
+  .log { min-height: 7.5em; font-size: 12px; color: var(--mute); white-space: pre-wrap; margin: 12px 0 0; }
+  .ok { color: var(--acid); }
+  .bad { color: #ff8d8d; }
+  footer { color: var(--mute); font-size: 13px; padding: 40px 24px 48px; }
+  .chip { display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; font-size: 12px; color: var(--warn); margin-right: 6px; }
+</style>
+
+<header>
+  <div class="mark">Agent<span>Pay</span></div>
+  <nav>
+    <a href="/shop">merchant shop</a>
+    <a href="/.well-known/agent-store.json">agent-store.json</a>
+    <a href="https://github.com/ink1ing/agentos">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <h1>One script.<br>Agents can pay.</h1>
+  <p class="lede">
+    Stripe put cards on a website. MoonPay put fiat on-ramps. AgentPay puts
+    <b style="color:var(--ink)">x402 checkout</b> on a shop so an AI agent can buy
+    with USDT on BNB Chain. Human still has to confirm.
+  </p>
+  <p>
+    <span class="chip">Track A · Agent OS Mini Hackathon</span>
+    <span class="chip">facilitator: mock until B402 keys</span>
+  </p>
+
+  <div class="row">
+    <section class="card">
+      <p class="kicker">Live catalog · store.shangdian.me (read-only)</p>
+      <div class="skus" id="skus">loading…</div>
+      <p class="log" id="log">Pick a SKU under $10. Quote → confirm → HTTP 402 → mock settle → pickup.</p>
+    </section>
+    <aside class="card">
+      <p class="kicker">Merchant paste</p>
+      <pre>&lt;script src="https://pay.shangdian.me/snippet/agentpay.js"
+        data-gateway="https://pay.shangdian.me"&gt;&lt;/script&gt;</pre>
+      <ul class="steps">
+        <li><span class="n">1</span><span>Agent reads <code>/.well-known/agent-store.json</code></span></li>
+        <li><span class="n">2</span><span><code>quote_product</code> issues a one-shot confirmToken</span></li>
+        <li><span class="n">3</span><span>Human says yes. Token dies if reused.</span></li>
+        <li><span class="n">4</span><span>HTTP 402 → <code>X-PAYMENT</code> → pickup + receipt</span></li>
+      </ul>
+      <p style="margin:14px 0 0;font-size:13px;color:var(--mute)">
+        MCP tools: list / quote / buy / get_order. Claude Desktop config in the repo.
+        Per-tx cap $10, under the Agent OS $20/day x402 limit.
+      </p>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  MIT · no production funds move in mock mode ·
+  <a href="https://github.com/ink1ing/agentos">ink1ing/agentos</a> ·
+  catalog from <a href="https://store.shangdian.me">store.shangdian.me</a>
+</footer>
+
+<script>
+const logEl = document.getElementById("log");
+const skusEl = document.getElementById("skus");
+const log = (msg, cls) => { logEl.innerHTML = `<span class="${cls || ""}">${msg}</span>`; };
+
+function mockSign(challenge, email) {
+  const payload = {
+    nonce: challenge.nonce,
+    from: "0xAGENTWALLET00000000000000000000000000demo",
+    amountCents: Math.round(Number(challenge.maxAmountRequired) * 100),
+    email: email || "demo@agentpay.local",
+    signature: "browser-mock",
+  };
+  return btoa(JSON.stringify({
+    x402Version: 2,
+    scheme: "exact",
+    network: challenge.network,
+    asset: challenge.asset,
+    payload,
+  }));
+}
+
+async function load() {
+  const store = await (await fetch("/.well-known/agent-store.json")).json();
+  const products = store.products || [];
+  skusEl.innerHTML = "";
+  if (!products.length) { skusEl.textContent = "catalog empty"; return; }
+  products.forEach((p) => {
+    const usd = (p.price.amountCents / 100).toFixed(2);
+    const buyable = p.price.amountCents <= 1000;
+    const el = document.createElement("div");
+    el.className = "sku";
+    el.innerHTML = `<div><b>${p.name}</b><small>${p.subtitle || p.deliveryEta} · ${p.id}</small></div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="price">$${usd}</span>
+        <button ${buyable ? "" : "disabled"} data-id="${p.id}">${buyable ? "quote" : "over cap"}</button>
+      </div>`;
+    el.querySelector("button").onclick = () => quote(p);
+    skusEl.appendChild(el);
+  });
+}
+
+async function quote(p) {
+  log(`quoting ${p.name}…`);
+  const q = await (await fetch("/agent/quote/" + encodeURIComponent(p.id), {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: "demo@agentpay.local" }),
+  })).json();
+  if (!q.confirmToken) { log(q.error || "quote failed", "bad"); return; }
+  logEl.innerHTML = "";
+  const line = document.createElement("div");
+  line.innerHTML = `Quote <b>${q.amount} ${q.asset}</b> on ${q.network}. Token dies in ${q.expiresInSec}s.
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button id="yes">confirm &amp; pay (mock)</button>
+      <button class="ghost" id="no">cancel</button>
+    </div>`;
+  logEl.appendChild(line);
+  document.getElementById("no").onclick = () => log("cancelled");
+  document.getElementById("yes").onclick = () => buy(p, q.confirmToken);
+}
+
+async function buy(p, token) {
+  log("waiting for HTTP 402…");
+  const chalRes = await fetch("/agent/buy/" + encodeURIComponent(p.id), {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-confirm-token": token },
+    body: JSON.stringify({ confirmToken: token, email: "demo@agentpay.local" }),
+  });
+  if (chalRes.status !== 402) {
+    const body = await chalRes.json().catch(() => ({}));
+    log((body.error || ("status " + chalRes.status)), "bad");
+    return;
+  }
+  const chal = (await chalRes.json()).accepts[0];
+  log(`402 ${chal.maxAmountRequired} ${chal.asset} on ${chal.network}. signing mock wallet…`);
+  const paid = await fetch("/agent/buy/" + encodeURIComponent(p.id), {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-payment": mockSign(chal, "demo@agentpay.local"),
+      "user-agent": "agentpay-web/0.2",
+    },
+    body: JSON.stringify({ email: "demo@agentpay.local" }),
+  });
+  const result = await paid.json();
+  if (!result.ok) { log(result.error || "settle failed", "bad"); return; }
+  logEl.innerHTML = `<span class="ok">paid ${result.orderNumber}</span>
+    · tx <code>${result.paid.txHash.slice(0, 18)}…</code><br>
+    <a href="${result.pickupUrl}">open pickup</a>`;
+}
+
+load().catch((err) => log(String(err), "bad"));
+</script>

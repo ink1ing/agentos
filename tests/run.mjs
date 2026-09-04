@@ -105,6 +105,21 @@ async function main() {
   const health = await (await fetch(`${base}/health`)).json();
   assert(health.ok && health.facilitator === "mock", "health");
 
+  const head = await fetch(`${base}/health`, { method: "HEAD" });
+  assert(head.status === 200, "HEAD /health");
+
+  const opt = await fetch(`${base}/health`, { method: "OPTIONS" });
+  assert(opt.status === 204 && opt.headers.get("access-control-allow-origin") === "*", "CORS preflight");
+
+  const home = await fetch(`${base}/`);
+  assert(home.status === 200 && (await home.text()).includes("AgentPay"), "landing page");
+
+  const shop = await fetch(`${base}/shop`);
+  assert(shop.status === 200 && (await shop.text()).includes("agentpay.js"), "merchant shop demo");
+
+  const snip = await fetch(`${base}/snippet/agentpay.js`);
+  assert(snip.status === 200 && (await snip.text()).includes("agent-ready"), "snippet served");
+
   const store = await (await fetch(`${base}/.well-known/agent-store.json`)).json();
   assert(store.products.length === 3, "digital-only catalog (3, not shipping)");
   assert(store.products.every((p) => p.id !== "prod-phone"), "excludes physical");
@@ -176,6 +191,30 @@ async function main() {
 
   const pickup = await fetch(paidBody.pickupUrl);
   assert(pickup.status === 200 && (await pickup.text()).includes("apple one"), "pickup page");
+
+  const quoteHttps = await (
+    await fetch(`${base}/agent/quote/prod-brief`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-forwarded-proto": "https" },
+      body: "{}",
+    })
+  ).json();
+  const chalHttps = await (
+    await fetch(`${base}/agent/buy/prod-brief`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-confirm-token": quoteHttps.confirmToken, "x-forwarded-proto": "https" },
+      body: "{}",
+    })
+  ).json();
+  const headerHttps = defaultWallet().sign({ challenge: chalHttps.accepts[0], email: "demo@agentpay.local" });
+  const paidHttps = await (
+    await fetch(`${base}/agent/buy/prod-brief`, {
+      method: "POST",
+      headers: { "x-payment": headerHttps, "content-type": "application/json", "x-forwarded-proto": "https" },
+      body: JSON.stringify({ email: "demo@agentpay.local" }),
+    })
+  ).json();
+  assert(paidHttps.ok && paidHttps.pickupUrl.startsWith("https://"), "pickup url honors x-forwarded-proto");
 
   const looked = await (await fetch(`${base}/agent/order/${paidBody.orderNumber}`)).json();
   assert(looked.orderNumber === paidBody.orderNumber && !looked.pickupToken, "order lookup hides token field");
