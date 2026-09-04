@@ -1,0 +1,73 @@
+{
+  "categories": [{ "id": "cat-digital", "slug": "digital", "name": "Digital", "sort_order": 1, "grid_columns": 2 }],
+  "products": [
+    {
+      "id": "prod-brief",
+      "slug": "apple-one",
+      "name": "apple one seat",
+      "subtitle": "demo",
+      "description": "Apple One seat for agent checkout demo",
+      "price_cents": 888,
+      "original_price_cents": 999,
+      "image_id": "",
+      "image_url": "",
+      "fulfillment": "digital",
+      "delivery_note": "10min",
+      "icon": "Package",
+      "sort_order": 1,
+      "category_slug": "digital",
+      "description_images": []
+    },
+    {
+      "id": "prod-api",
+      "slug": "notion-team",
+      "name": "notion team 3 months",
+      "subtitle": "",
+      "description": "Notion team",
+      "price_cents": 1000,
+      "original_price_cents": 1200,
+      "image_id": "",
+      "image_url": "",
+      "fulfillment": "digital",
+      "delivery_note": "instant",
+      "icon": "Package",
+      "sort_order": 2,
+      "category_slug": "digital",
+      "description_images": []
+    },
+    {
+      "id": "prod-chatgpt",
+      "slug": "gpt-plus",
+      "name": "gpt plus",
+      "subtitle": "",
+      "description": "too expensive for demo cap",
+      "price_cents": 13200,
+      "original_price_cents": 14400,
+      "image_id": "",
+      "image_url": "",
+      "fulfillment": "digital",
+      "delivery_note": "5min",
+      "icon": "Package",
+      "sort_order": 3,
+      "category_slug": "digital",
+      "description_images": []
+    },
+    {
+      "id": "prod-phone",
+      "slug": "used-phone",
+      "name": "used phone",
+      "subtitle": "",
+      "description": "physical, excluded from agent store",
+      "price_cents": 200,
+      "original_price_cents": 200,
+      "image_id": "",
+      "image_url": "",
+      "fulfillment": "shipping",
+      "delivery_note": "sf",
+      "icon": "Package",
+      "sort_order": 4,
+      "category_slug": "digital",
+      "description_images": []
+    }
+  ]
+}

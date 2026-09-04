@@ -1,0 +1,16 @@
+{
+  "name": "agentpay",
+  "version": "0.2.0",
+  "private": true,
+  "description": "One-line x402 checkout for AI agents — Binance Agent OS Mini Hackathon Track A",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node gateway/server.mjs",
+    "agent": "node agent/buy.mjs",
+    "mcp": "node mcp/server.mjs",
+    "test": "node tests/run.mjs",
+    "pre-submit": "node scripts/pre-submit.mjs"
+  }
+}

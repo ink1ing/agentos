@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.local
+gateway/data/
+gateway/outbox/
+orders.json
+*.log
+.DS_Store
