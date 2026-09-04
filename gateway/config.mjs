@@ -1,5 +1,6 @@
 // AgentPay gateway config
 export const CONFIG = {
+  host: process.env.HOST || "127.0.0.1",
   port: Number(process.env.PORT || 8402),
   upstreamCatalog: process.env.UPSTREAM_CATALOG || "https://store.shangdian.me/api/catalog",
   storeName: process.env.STORE_NAME || "Silas Store",

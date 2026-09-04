@@ -170,7 +170,7 @@ export function createServer() {
 
 const isMain = Boolean(process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href);
 if (isMain) {
-  createServer().listen(CONFIG.port, () =>
-    console.log(`AgentPay gateway → http://localhost:${CONFIG.port}  (facilitator: ${CONFIG.facilitator}, upstream: ${CONFIG.upstreamCatalog})`)
+  createServer().listen(CONFIG.port, CONFIG.host, () =>
+    console.log(`AgentPay gateway → http://${CONFIG.host}:${CONFIG.port}  (facilitator: ${CONFIG.facilitator}, upstream: ${CONFIG.upstreamCatalog})`)
   );
 }
