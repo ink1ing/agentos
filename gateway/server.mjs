@@ -1,6 +1,7 @@
 // AgentPay gateway: make a store agent-readable and x402-payable
 import http from "node:http";
-import { pathToFileURL } from "node:url";
+import { realpathSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { CONFIG } from "./config.mjs";
 import { loadCatalog, toAgentStore, findProduct } from "./lib/catalog.mjs";
 import { buildChallenge, decodePayment, consumeChallenge } from "./lib/x402.mjs";
@@ -168,7 +169,15 @@ export function createServer() {
   });
 }
 
-const isMain = Boolean(process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href);
+function isEntrypoint() {
+  if (!process.argv[1]) return false;
+  try {
+    return realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
+  } catch {
+    return import.meta.url === pathToFileURL(process.argv[1]).href;
+  }
+}
+const isMain = isEntrypoint();
 if (isMain) {
   createServer().listen(CONFIG.port, CONFIG.host, () =>
     console.log(`AgentPay gateway → http://${CONFIG.host}:${CONFIG.port}  (facilitator: ${CONFIG.facilitator}, upstream: ${CONFIG.upstreamCatalog})`)
