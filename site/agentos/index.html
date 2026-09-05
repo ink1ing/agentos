@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,17 +19,21 @@
   html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; }
   a { color: var(--acid); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  [data-lang="en"] .zh { display: none !important; }
+  [data-lang="zh"] .en { display: none !important; }
   header, main, footer { max-width: 980px; margin: 0 auto; padding: 0 24px; }
-  header { display: flex; justify-content: space-between; align-items: baseline; padding-top: 28px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; padding-top: 28px; gap: 12px; }
   .mark { font-weight: 700; letter-spacing: -0.03em; }
   .mark span { color: var(--acid); }
-  nav { display: flex; gap: 18px; font-size: 13px; color: var(--mute); flex-wrap: wrap; }
+  nav { display: flex; gap: 18px; font-size: 13px; color: var(--mute); flex-wrap: wrap; align-items: baseline; }
+  #langBtn { background: transparent; color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font: 600 12px/1 inherit; cursor: pointer; }
+  #langBtn:hover { border-color: var(--acid); color: var(--acid); }
   h1 { font-size: clamp(36px, 6.5vw, 66px); line-height: 1.0; letter-spacing: -0.045em; margin: 48px 0 16px; font-weight: 650; }
+  h1.zh { line-height: 1.15; letter-spacing: -0.02em; }
   h2 { font-size: 22px; letter-spacing: -0.02em; margin: 56px 0 6px; }
   h2 small { display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); font-weight: 500; margin-bottom: 6px; }
   .lede { font-size: 18px; color: var(--mute); max-width: 42em; }
   .lede b { color: var(--ink); }
-  .zh { font-size: 14px; color: var(--mute); border-left: 2px solid var(--line); padding-left: 12px; max-width: 42em; }
   .chip { display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--warn); margin: 0 6px 6px 0; }
   .chip.green { color: var(--acid); }
   .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; }
@@ -39,7 +43,6 @@
   .card h3 code { color: var(--acid); }
   .card p { margin: 0; font-size: 14px; color: var(--mute); }
   .card p b { color: var(--ink); font-weight: 600; }
-  .kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin: 0 0 8px; }
   pre, code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
   pre { margin: 16px 0; font-size: 13px; overflow-x: auto; color: var(--acid); background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; line-height: 1.7; }
   pre .c { color: var(--mute); }
@@ -70,38 +73,43 @@
 <header>
   <div class="mark">Agent<span>Pay</span></div>
   <nav>
-    <a href="https://pay.shangdian.me">live demo</a>
-    <a href="https://pay.shangdian.me/shop">merchant shop</a>
+    <a href="https://pay.shangdian.me"><span class="en">live demo</span><span class="zh">在線演示</span></a>
+    <a href="https://pay.shangdian.me/shop"><span class="en">merchant shop</span><span class="zh">商家店鋪</span></a>
     <a href="https://pay.shangdian.me/.well-known/agent-store.json">agent-store.json</a>
     <a href="https://github.com/ink1ing/agentos">GitHub</a>
+    <button id="langBtn" type="button" onclick="toggleLang()"><span class="en">中文</span><span class="zh">EN</span></button>
   </nav>
 </header>
 
 <main>
-  <h1>Every storefront,<br>open for AI agents.</h1>
-  <p class="lede">
+  <h1 class="en">Every storefront,<br>open for AI agents.</h1>
+  <h1 class="zh">讓每一家店鋪，<br>都能被 AI agent 讀懂並付款。</h1>
+  <p class="lede en">
     Stripe put card checkout on the web. MoonPay put fiat on-ramps on it.
     <b>AgentPay puts x402 checkout on any storefront</b> — one pasted script, and an AI agent
     can read your catalog, quote a price, wait for a human "yes", and settle in
     <b>USDT on BNB Chain</b> through Binance OnchainPay (B402). Built for the
     <b>Binance Agent OS Mini Hackathon, Track A</b>.
   </p>
-  <p class="zh">
-    中文摘要：AgentPay 讓任何店鋪貼一行腳本就能被 AI agent「讀懂並付款」——agent 讀目錄 → 報價 →
-    人類確認 → HTTP 402 → 透過 Binance OnchainPay 在 BNB Chain 上用 USDT 結算 → 取貨連結 + 收據。
+  <p class="lede zh">
+    Stripe 讓網頁能刷卡，MoonPay 讓網頁能入金。
+    <b>AgentPay 讓任何店鋪貼一行腳本就擁有 x402 結賬</b> —— AI agent 讀取商品目錄 → 報價 →
+    等人類確認「是」→ 透過 Binance OnchainPay（B402）在
+    <b>BNB Chain 上用 USDT</b> 結算 → 取貨連結 + 收據。為
+    <b>Binance Agent OS Mini Hackathon 賽道 A</b> 而構建。
   </p>
   <p style="margin-top:20px">
-    <span class="chip">Track A · Build an AI agent with Agent OS</span>
-    <span class="chip">deadline 2026-09-08 23:59 UTC</span>
-    <span class="chip green">live at pay.shangdian.me</span>
+    <span class="chip"><span class="en">Track A · Build an AI agent with Agent OS</span><span class="zh">賽道 A · 使用 Agent OS 構建 AI 代理</span></span>
+    <span class="chip"><span class="en">deadline 2026-09-08 23:59 UTC</span><span class="zh">截止 2026-09-08 23:59 UTC</span></span>
+    <span class="chip green"><span class="en">live at pay.shangdian.me</span><span class="zh">已上線 pay.shangdian.me</span></span>
   </p>
   <p>
-    <a class="cta" href="https://pay.shangdian.me">Try the live demo →</a>
-    <a class="cta ghost" href="https://github.com/ink1ing/agentos">Read the code</a>
+    <a class="cta" href="https://pay.shangdian.me"><span class="en">Try the live demo →</span><span class="zh">試試在線演示 →</span></a>
+    <a class="cta ghost" href="https://github.com/ink1ing/agentos"><span class="en">Read the code</span><span class="zh">閱讀源碼</span></a>
   </p>
 
-  <h2><small>The problem</small>Agents can browse. They can't buy.</h2>
-  <p class="lede" style="font-size:16px">
+  <h2><small><span class="en">The problem</span><span class="zh">問題</span></small><span class="en">Agents can browse. They can't buy.</span><span class="zh">Agent 會逛店，但買不了單。</span></h2>
+  <p class="lede en" style="font-size:16px">
     AI agents already research products, compare prices, and draft orders — then stall at a
     checkout form built for human eyes: passwords, card fields, CAPTCHAs. Meanwhile the
     HTTP status code for exactly this moment, <b>402 Payment Required</b>, sat unused since 1997.
@@ -109,124 +117,205 @@
     <b>merchant side</b>: a way for an ordinary small shop to opt in without rebuilding anything.
     That's AgentPay.
   </p>
+  <p class="lede zh" style="font-size:16px">
+    AI agent 早就會調研商品、比價、擬訂單 —— 然後卡死在為人眼設計的結賬表單前：密碼、卡號、驗證碼。
+    而 HTTP 裡專為這一刻準備的狀態碼 <b>402 Payment Required</b>，從 1997 年起一直閒置。
+    x402 協議喚醒了它，Binance 把它帶上了 BNB Chain。缺的是<b>商家這一側</b>：
+    讓一家普通小店不用重寫任何東西就能接入。這就是 AgentPay。
+  </p>
 
-  <h2><small>Innovation</small>What's actually new here</h2>
+  <h2><small><span class="en">Innovation</span><span class="zh">創新點</span></small><span class="en">What's actually new here</span><span class="zh">到底新在哪裡</span></h2>
   <div class="grid">
     <div class="card">
-      <h3>1 · One-script merchant onboarding</h3>
-      <p>Paste <code>&lt;script src=".../snippet/agentpay.js"&gt;</code> like a Stripe or analytics tag.
+      <h3><span class="en">1 · One-script merchant onboarding</span><span class="zh">1 · 商家一行腳本接入</span></h3>
+      <p class="en">Paste <code>&lt;script src=".../snippet/agentpay.js"&gt;</code> like a Stripe or analytics tag.
       The shop instantly exposes a machine-readable catalog at
       <b><code>/.well-known/agent-store.json</code></b> — a convention any crawler or agent can discover.
       No SDK, no backend rewrite. Demo is wired <b>read-only</b> to a real store (store.shangdian.me).</p>
+      <p class="zh">像貼 Stripe 或統計代碼一樣貼上 <code>&lt;script src=".../snippet/agentpay.js"&gt;</code>，
+      店鋪立即在 <b><code>/.well-known/agent-store.json</code></b> 暴露機器可讀的商品目錄 ——
+      任何爬蟲或 agent 都能按慣例發現。無 SDK、不改後端。演示<b>只讀</b>接入真實店鋪（store.shangdian.me）。</p>
     </div>
     <div class="card">
-      <h3>2 · Human-confirm gate before money moves</h3>
-      <p>Agents are eager; wallets are real. <code>POST /agent/quote</code> issues a <b>one-shot
+      <h3><span class="en">2 · Human-confirm gate before money moves</span><span class="zh">2 · 資金移動前的人類確認閘</span></h3>
+      <p class="en">Agents are eager; wallets are real. <code>POST /agent/quote</code> issues a <b>one-shot
       confirm token (~120 s TTL)</b>. A buy without a valid token is refused with <b>409</b> —
       the agent must show its human the exact price and get a "yes" first. Autonomy for the
       boring parts, consent for the money part.</p>
+      <p class="zh">Agent 手快，錢包是真的。<code>POST /agent/quote</code> 簽發<b>一次性確認令牌（約 120 秒有效）</b>。
+      沒有有效令牌的購買一律 <b>409</b> 拒絕 —— agent 必須把準確價格拿給人類、拿到「是」才能繼續。
+      無聊的部分交給自治，花錢的部分保留同意權。</p>
     </div>
     <div class="card">
-      <h3>3 · Full x402 v2 handshake, end to end</h3>
-      <p>Not a mockup of the idea — the real protocol: <b>402</b> challenge with
+      <h3><span class="en">3 · Full x402 v2 handshake, end to end</span><span class="zh">3 · 端到端完整 x402 v2 握手</span></h3>
+      <p class="en">Not a mockup of the idea — the real protocol: <b>402</b> challenge with
       <code>accepts[]</code>, one-shot nonce, base64 <code>X-PAYMENT</code> retry,
       <code>X-PAYMENT-RESPONSE</code> receipt header, order + pickup link + emailed receipt.
       Runs live in your browser on the demo page.</p>
+      <p class="zh">不是概念演示，是真協議：帶 <code>accepts[]</code> 的 <b>402</b> 挑戰、一次性 nonce、
+      base64 <code>X-PAYMENT</code> 重試、<code>X-PAYMENT-RESPONSE</code> 回執頭、
+      訂單 + 取貨連結 + 郵件收據。在演示頁的瀏覽器裡可實時跑通。</p>
     </div>
     <div class="card">
-      <h3>4 · Facilitator-pluggable: mock ⇄ Binance B402</h3>
-      <p>Settlement is one interface. Today it runs a <b>deterministic mock</b> (no real funds);
+      <h3><span class="en">4 · Facilitator-pluggable: mock ⇄ Binance B402</span><span class="zh">4 · Facilitator 可插拔：mock ⇄ Binance B402</span></h3>
+      <p class="en">Settlement is one interface. Today it runs a <b>deterministic mock</b> (no real funds);
       set four env vars (<code>B402_BASE_URL / CLIENT_ID / ACCESS_TOKEN / PRIVATE_KEY</code>) and the
       same code settles through <b>Binance OnchainPay <code>/papi/v2/b402</code> verify + settle</b>
       on BNB Chain. Zero code changes between demo and production.</p>
+      <p class="zh">結算只是一個接口。當前跑<b>確定性 mock</b>（無真實資金）；
+      配好四個環境變數（<code>B402_BASE_URL / CLIENT_ID / ACCESS_TOKEN / PRIVATE_KEY</code>），
+      同一份代碼即走 <b>Binance OnchainPay <code>/papi/v2/b402</code> verify + settle</b> 在 BNB Chain 上結算。
+      演示到生產，零代碼改動。</p>
     </div>
   </div>
 
-  <h2><small>Architecture</small>One purchase, seven steps</h2>
+  <h2><small><span class="en">Architecture</span><span class="zh">架構</span></small><span class="en">One purchase, seven steps</span><span class="zh">一次購買，七個步驟</span></h2>
   <ol class="steps">
-    <li><div><b>Agent discovers the shop.</b><small>MCP tool <code>list_products</code> reads <code>/.well-known/agent-store.json</code> — digital SKUs only, prices in cents, live from the real catalog.</small></div></li>
-    <li><div><b>Agent quotes.</b><small><code>quote_product</code> → price, asset (USDT), network (BNB Chain), and a one-shot <code>confirmToken</code>.</small></div></li>
-    <li><div><b>Human says yes.</b><small>The agent presents the quote; only a human confirmation unlocks the token. No token → <b>HTTP 409</b>.</small></div></li>
-    <li><div><b>Server challenges: HTTP 402.</b><small>x402 v2 payload: <code>accepts[]</code> (schemes <code>exact</code> × <code>eip3009 | permit2-exact</code>), amount, payTo, fresh nonce.</small></div></li>
-    <li><div><b>Agent pays.</b><small>Retries with base64 <code>X-PAYMENT</code> header — a signed USDT authorization for BNB Chain.</small></div></li>
-    <li><div><b>Facilitator settles.</b><small>Gateway calls Binance OnchainPay B402 <code>verify</code> → <code>settle</code> (mock in demo). Binance handles chain interaction and gas.</small></div></li>
-    <li><div><b>Delivery + receipt.</b><small><code>200 OK</code> with tx hash, <code>X-PAYMENT-RESPONSE</code>, pickup URL, and an emailed receipt. Order queryable via <code>get_order</code>.</small></div></li>
+    <li><div>
+      <span class="en"><b>Agent discovers the shop.</b><small>MCP tool <code>list_products</code> reads <code>/.well-known/agent-store.json</code> — digital SKUs only, prices in cents, live from the real catalog.</small></span>
+      <span class="zh"><b>Agent 發現店鋪。</b><small>MCP 工具 <code>list_products</code> 讀取 <code>/.well-known/agent-store.json</code> —— 僅數字商品、價格以分計、實時來自真實目錄。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Agent quotes.</b><small><code>quote_product</code> → price, asset (USDT), network (BNB Chain), and a one-shot <code>confirmToken</code>.</small></span>
+      <span class="zh"><b>Agent 報價。</b><small><code>quote_product</code> → 價格、資產（USDT）、網絡（BNB Chain）與一次性 <code>confirmToken</code>。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Human says yes.</b><small>The agent presents the quote; only a human confirmation unlocks the token. No token → <b>HTTP 409</b>.</small></span>
+      <span class="zh"><b>人類說「是」。</b><small>Agent 呈上報價；只有人類確認才解鎖令牌。沒有令牌 → <b>HTTP 409</b>。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Server challenges: HTTP 402.</b><small>x402 v2 payload: <code>accepts[]</code> (schemes <code>exact</code> × <code>eip3009 | permit2-exact</code>), amount, payTo, fresh nonce.</small></span>
+      <span class="zh"><b>服務器挑戰：HTTP 402。</b><small>x402 v2 載荷：<code>accepts[]</code>（<code>exact</code> × <code>eip3009 | permit2-exact</code>）、金額、payTo、新 nonce。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Agent pays.</b><small>Retries with base64 <code>X-PAYMENT</code> header — a signed USDT authorization for BNB Chain.</small></span>
+      <span class="zh"><b>Agent 付款。</b><small>帶 base64 <code>X-PAYMENT</code> 頭重試 —— 一份面向 BNB Chain 的 USDT 簽名授權。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Facilitator settles.</b><small>Gateway calls Binance OnchainPay B402 <code>verify</code> → <code>settle</code> (mock in demo). Binance handles chain interaction and gas.</small></span>
+      <span class="zh"><b>Facilitator 結算。</b><small>閘道調用 Binance OnchainPay B402 <code>verify</code> → <code>settle</code>（演示為 mock）。鏈上交互與 gas 由 Binance 處理。</small></span>
+    </div></li>
+    <li><div>
+      <span class="en"><b>Delivery + receipt.</b><small><code>200 OK</code> with tx hash, <code>X-PAYMENT-RESPONSE</code>, pickup URL, and an emailed receipt. Order queryable via <code>get_order</code>.</small></span>
+      <span class="zh"><b>交付 + 收據。</b><small><code>200 OK</code> 帶 tx hash、<code>X-PAYMENT-RESPONSE</code>、取貨 URL 與郵件收據。訂單可經 <code>get_order</code> 查詢。</small></span>
+    </div></li>
   </ol>
-  <pre class="wide"><span class="c"># the whole protocol, visible in curl</span>
+  <pre class="wide"><span class="c en"># the whole protocol, visible in curl</span><span class="c zh"># 整套協議，curl 裡看得見</span>
 POST /agent/quote/apple-one          <span class="c">→ 200 { amount: "$8.88", confirmToken }</span>
-POST /agent/buy/apple-one            <span class="c">→ 409 confirmation required</span>
+POST /agent/buy/apple-one            <span class="c en">→ 409 confirmation required</span><span class="c zh">→ 409 需要確認</span>
 POST /agent/buy/apple-one  <span class="h">X-Confirm-Token: …</span>  <span class="c">→ 402 { accepts: [eip3009, permit2-exact] }</span>
 POST /agent/buy/apple-one  <span class="h">X-PAYMENT: base64(…)</span> <span class="c">→ 200 { txHash, pickupUrl }  + X-PAYMENT-RESPONSE</span></pre>
 
-  <h2><small>The stack</small>How AgentPay uses Binance · BSC · x402 · AI agents</h2>
+  <h2><small><span class="en">The stack</span><span class="zh">技術棧</span></small><span class="en">How AgentPay uses Binance · BSC · x402 · AI agents</span><span class="zh">AgentPay 如何運用 Binance · BSC · x402 · AI agent</span></h2>
   <div class="wide"><table>
-    <tr><th>Layer</th><th>What it is</th><th>How AgentPay uses it</th></tr>
+    <tr>
+      <th><span class="en">Layer</span><span class="zh">層</span></th>
+      <th><span class="en">What it is</span><span class="zh">是什麼</span></th>
+      <th><span class="en">How AgentPay uses it</span><span class="zh">AgentPay 怎麼用</span></th>
+    </tr>
     <tr>
       <td>Binance<br>Agent OS</td>
-      <td>Binance's developer platform connecting AI apps to trading, wallet, payment and on-chain rails — MCP server, Skill Hub, Agentic Wallet, and Binance Pay x402.</td>
-      <td>AgentPay is a <b>Track A agent built on the Agent OS payment rail</b>: it targets Binance Pay x402 as its settlement path and respects the platform's <b>$20/day x402 limit</b> by hard-capping every transaction at <b>$10</b> in the gateway.</td>
+      <td>
+        <span class="en">Binance's developer platform connecting AI apps to trading, wallet, payment and on-chain rails — MCP server, Skill Hub, Agentic Wallet, and Binance Pay x402.</span>
+        <span class="zh">Binance 的開發者平台，把 AI 應用接入交易、錢包、支付與鏈上能力 —— MCP server、Skill Hub、Agentic Wallet 與 Binance Pay x402。</span>
+      </td>
+      <td>
+        <span class="en">AgentPay is a <b>Track A agent built on the Agent OS payment rail</b>: it targets Binance Pay x402 as its settlement path and respects the platform's <b>$20/day x402 limit</b> by hard-capping every transaction at <b>$10</b> in the gateway.</span>
+        <span class="zh">AgentPay 是<b>構建在 Agent OS 支付軌道上的賽道 A 代理</b>：以 Binance Pay x402 為結算路徑，並在閘道裡把單筆硬性限制在 <b>$10</b>，遵守平台 <b>$20/日的 x402 限額</b>。</span>
+      </td>
     </tr>
     <tr>
       <td>Binance<br>OnchainPay<br>(B402)</td>
-      <td>Binance's x402 facilitator on BNB Chain: merchants call simple HTTP APIs (<code>supported / verify / settle</code>); Binance verifies signatures, submits on-chain, and pays gas.</td>
-      <td>The gateway's facilitator module implements the <b>B402 API with RSA request signing</b> (<code>@bnb-chain/b402</code>-compatible). Demo mode is a faithful mock; production is a config switch, not a rewrite.</td>
+      <td>
+        <span class="en">Binance's x402 facilitator on BNB Chain: merchants call simple HTTP APIs (<code>supported / verify / settle</code>); Binance verifies signatures, submits on-chain, and pays gas.</span>
+        <span class="zh">Binance 在 BNB Chain 上的 x402 facilitator：商家只調簡單 HTTP API（<code>supported / verify / settle</code>）；驗簽、上鏈、gas 全由 Binance 處理。</span>
+      </td>
+      <td>
+        <span class="en">The gateway's facilitator module implements the <b>B402 API with RSA request signing</b> (<code>@bnb-chain/b402</code>-compatible). Demo mode is a faithful mock; production is a config switch, not a rewrite.</span>
+        <span class="zh">閘道的 facilitator 模塊實現了<b>帶 RSA 請求簽名的 B402 API</b>（兼容 <code>@bnb-chain/b402</code>）。演示模式是忠實的 mock；切生產只是改配置，不是重寫。</span>
+      </td>
     </tr>
     <tr>
       <td>BNB Chain<br>(BSC)</td>
-      <td>EVM chain with ~0.45 s blocks, ~1 s finality and cent-level gas — one of the largest stablecoin networks (~$14 B supply, USDT-dominant).</td>
-      <td>All payments are <b>USDT (BEP-20) on BNB Chain</b>, declared in every quote and 402 challenge. Fast finality and near-zero fees are what make <b>$0.5–$10 agent micro-purchases</b> economically sane.</td>
+      <td>
+        <span class="en">EVM chain with ~0.45 s blocks, ~1 s finality and cent-level gas — one of the largest stablecoin networks (~$14 B supply, USDT-dominant).</span>
+        <span class="zh">EVM 鏈：約 0.45 秒出塊、約 1 秒最終確認、gas 以美分計 —— 最大的穩定幣網絡之一（供應約 $140 億，以 USDT 為主）。</span>
+      </td>
+      <td>
+        <span class="en">All payments are <b>USDT (BEP-20) on BNB Chain</b>, declared in every quote and 402 challenge. Fast finality and near-zero fees are what make <b>$0.5–$10 agent micro-purchases</b> economically sane.</span>
+        <span class="zh">所有支付均為 <b>BNB Chain 上的 USDT（BEP-20）</b>，在每次報價與 402 挑戰中聲明。快速確認 + 近零手續費，才讓 <b>$0.5–$10 的 agent 小額購買</b>在經濟上成立。</span>
+      </td>
     </tr>
     <tr>
-      <td>x402<br>protocol</td>
-      <td>Open standard (Coinbase-initiated, now Linux Foundation / x402 Foundation) that revives HTTP 402 for machine-native stablecoin payments.</td>
-      <td>AgentPay speaks <b>x402 v2 verbatim</b> — 402 challenge, <code>X-PAYMENT</code>, <code>X-PAYMENT-RESPONSE</code>, facilitator verify/settle — so <b>any</b> x402-capable client can pay, not just ours.</td>
+      <td>x402<br><span class="en">protocol</span><span class="zh">協議</span></td>
+      <td>
+        <span class="en">Open standard (Coinbase-initiated, now Linux Foundation / x402 Foundation) that revives HTTP 402 for machine-native stablecoin payments.</span>
+        <span class="zh">開放標準（Coinbase 發起，現歸 Linux Foundation / x402 Foundation），喚醒 HTTP 402 用於機器原生穩定幣支付。</span>
+      </td>
+      <td>
+        <span class="en">AgentPay speaks <b>x402 v2 verbatim</b> — 402 challenge, <code>X-PAYMENT</code>, <code>X-PAYMENT-RESPONSE</code>, facilitator verify/settle — so <b>any</b> x402-capable client can pay, not just ours.</span>
+        <span class="zh">AgentPay <b>逐字實現 x402 v2</b> —— 402 挑戰、<code>X-PAYMENT</code>、<code>X-PAYMENT-RESPONSE</code>、facilitator verify/settle —— 因此<b>任何</b>支持 x402 的客戶端都能付款，不限於我們自己的。</span>
+      </td>
     </tr>
     <tr>
       <td>AI agents<br>(MCP)</td>
-      <td>Model Context Protocol — the same standard Agent OS uses to plug Binance into Claude, ChatGPT, Cursor and more.</td>
-      <td>Ships an <b>MCP server with 4 tools</b>: <code>list_products · quote_product · buy_product · get_order</code>. Point Claude Desktop at it and say "buy me the Apple One seat" — the agent does the rest, minus the human "yes".</td>
+      <td>
+        <span class="en">Model Context Protocol — the same standard Agent OS uses to plug Binance into Claude, ChatGPT, Cursor and more.</span>
+        <span class="zh">Model Context Protocol —— Agent OS 用來把 Binance 接入 Claude、ChatGPT、Cursor 等的同一標準。</span>
+      </td>
+      <td>
+        <span class="en">Ships an <b>MCP server with 4 tools</b>: <code>list_products · quote_product · buy_product · get_order</code>. Point Claude Desktop at it and say "buy me the Apple One seat" — the agent does the rest, minus the human "yes".</span>
+        <span class="zh">內置<b>帶 4 個工具的 MCP server</b>：<code>list_products · quote_product · buy_product · get_order</code>。把 Claude Desktop 指向它，說「幫我買 Apple One 席位」—— 剩下的 agent 全包，只留人類那聲「是」。</span>
+      </td>
     </tr>
   </table></div>
 
-  <h2><small>Compliance</small>Built inside the rules</h2>
+  <h2><small><span class="en">Compliance</span><span class="zh">合規</span></small><span class="en">Built inside the rules</span><span class="zh">在規則之內構建</span></h2>
   <div class="grid">
     <div class="card">
-      <h3>Hackathon fit</h3>
-      <p><b>Track A — Build an AI agent using Agent OS.</b> Submission: video/demo + GitHub repo via X (follow @Binance, repost, quote-tweet) + official survey, before <b>2026-09-08 23:59 UTC</b>.</p>
+      <h3><span class="en">Hackathon fit</span><span class="zh">大賽契合</span></h3>
+      <p class="en"><b>Track A — Build an AI agent using Agent OS.</b> Submission: video/demo + GitHub repo via X (follow @Binance, repost, quote-tweet) + official survey, before <b>2026-09-08 23:59 UTC</b>.</p>
+      <p class="zh"><b>賽道 A —— 使用 Agent OS 構建 AI 代理。</b>提交：影片/演示 + GitHub 倉庫，經 X（關注 @Binance、轉發、引用轉發）+ 官方問卷，截止 <b>2026-09-08 23:59 UTC</b>。</p>
     </div>
     <div class="card">
-      <h3>Spending guardrails</h3>
-      <p>Per-tx cap <b>$10 &lt; the $20/day Agent OS x402 limit</b>; human confirm token required before any 402 is even issued; one-shot nonces prevent replay.</p>
+      <h3><span class="en">Spending guardrails</span><span class="zh">花費護欄</span></h3>
+      <p class="en">Per-tx cap <b>$10 &lt; the $20/day Agent OS x402 limit</b>; human confirm token required before any 402 is even issued; one-shot nonces prevent replay.</p>
+      <p class="zh">單筆上限 <b>$10 &lt; Agent OS $20/日 x402 限額</b>；發出任何 402 之前必須先有人類確認令牌；一次性 nonce 防重放。</p>
     </div>
     <div class="card">
-      <h3>No real funds in demo</h3>
-      <p>The public demo settles through a <b>mock facilitator</b> — deterministic fake tx hashes, no blockchain writes, no custody. Real settlement activates only with Binance-issued B402 credentials.</p>
+      <h3><span class="en">No real funds in demo</span><span class="zh">演示無真實資金</span></h3>
+      <p class="en">The public demo settles through a <b>mock facilitator</b> — deterministic fake tx hashes, no blockchain writes, no custody. Real settlement activates only with Binance-issued B402 credentials.</p>
+      <p class="zh">公開演示經<b>mock facilitator</b> 結算 —— 確定性的假 tx hash、不寫鏈、不託管。真實結算僅在配置 Binance 簽發的 B402 憑證後啟用。</p>
     </div>
     <div class="card">
-      <h3>Real store, zero risk</h3>
-      <p>Catalog is read <b>read-only</b> from a genuine storefront; the production database, order flow and payment paths of the store are untouched.</p>
+      <h3><span class="en">Real store, zero risk</span><span class="zh">真實店鋪，零風險</span></h3>
+      <p class="en">Catalog is read <b>read-only</b> from a genuine storefront; the production database, order flow and payment paths of the store are untouched.</p>
+      <p class="zh">商品目錄<b>只讀</b>取自真實店鋪；店鋪的生產數據庫、訂單流與支付路徑一概不碰。</p>
     </div>
   </div>
 
   <div class="notice">
-    <b>Disclaimer.</b> AgentPay is a hackathon prototype, not a financial product or an offer of one.
+    <span class="en"><b>Disclaimer.</b> AgentPay is a hackathon prototype, not a financial product or an offer of one.
     Nothing here is financial advice. The Binance Agent OS Mini Hackathon is not available in the
     United States, United Kingdom, European Economic Area, Hong Kong, Singapore, or other
     prohibited jurisdictions — see Binance's official list. Crypto payments involve risk; digital
-    asset transfers are irreversible.
+    asset transfers are irreversible.</span>
+    <span class="zh"><b>免責聲明。</b>AgentPay 是黑客松原型，不是金融產品，也不構成任何要約。
+    本頁內容均非財務建議。Binance Agent OS Mini Hackathon 不面向美國、英國、歐洲經濟區、香港、新加坡
+    及其他禁止司法轄區 —— 以 Binance 官方清單為準。加密支付有風險；數字資產轉賬不可逆。</span>
   </div>
 
-  <h2><small>See it</small>Three links, sixty seconds</h2>
+  <h2><small><span class="en">See it</span><span class="zh">眼見為實</span></small><span class="en">Three links, sixty seconds</span><span class="zh">三個連結，六十秒</span></h2>
   <p>
-    <a class="cta" href="https://pay.shangdian.me">1 · Run a mock purchase in your browser</a>
-    <a class="cta ghost" href="https://pay.shangdian.me/shop">2 · See the merchant's one-line install</a>
-    <a class="cta ghost" href="https://github.com/ink1ing/agentos">3 · Audit the code</a>
+    <a class="cta" href="https://pay.shangdian.me"><span class="en">1 · Run a mock purchase in your browser</span><span class="zh">1 · 在瀏覽器裡跑一次 mock 購買</span></a>
+    <a class="cta ghost" href="https://pay.shangdian.me/shop"><span class="en">2 · See the merchant's one-line install</span><span class="zh">2 · 看商家的一行接入</span></a>
+    <a class="cta ghost" href="https://github.com/ink1ing/agentos"><span class="en">3 · Audit the code</span><span class="zh">3 · 審查源碼</span></a>
   </p>
 </main>
 
 <footer>
-  <p><b style="color:var(--ink)">AgentPay</b> · Binance Agent OS Mini Hackathon, Track A · MIT-licensed prototype · <a href="https://github.com/ink1ing/agentos">github.com/ink1ing/agentos</a></p>
-  <p>References:
+  <p><b style="color:var(--ink)">AgentPay</b> · <span class="en">Binance Agent OS Mini Hackathon, Track A · MIT-licensed prototype</span><span class="zh">Binance Agent OS Mini Hackathon 賽道 A · MIT 許可原型</span> · <a href="https://github.com/ink1ing/agentos">github.com/ink1ing/agentos</a></p>
+  <p><span class="en">References:</span><span class="zh">參考資料：</span>
     <a href="https://www.binance.com/en/agent-os">Binance Agent OS</a> ·
     <a href="https://www.binance.com/binancex402">Binance Pay x402</a> ·
     <a href="https://github.com/coinbase/x402">x402 protocol</a> ·
@@ -234,6 +323,22 @@ POST /agent/buy/apple-one  <span class="h">X-PAYMENT: base64(…)</span> <span c
     <a href="https://developers.binance.com/en/docs/agent-native/mcp-server/agentic">Binance MCP Server</a>
   </p>
 </footer>
+
+<script>
+  function applyLang(l) {
+    document.documentElement.dataset.lang = l;
+    document.documentElement.lang = l === "zh" ? "zh-CN" : "en";
+  }
+  function toggleLang() {
+    const next = document.documentElement.dataset.lang === "zh" ? "en" : "zh";
+    applyLang(next);
+    try { localStorage.setItem("agentpay-lang", next); } catch {}
+  }
+  try {
+    const saved = localStorage.getItem("agentpay-lang");
+    if (saved === "zh" || saved === "en") applyLang(saved);
+  } catch {}
+</script>
 
 </body>
 </html>
