@@ -19,7 +19,7 @@ node agent/buy.mjs apple
 npm test
 ```
 
-Live: [pay.shangdian.me](https://pay.shangdian.me) (landing + mock buy) · [shop demo](https://pay.shangdian.me/shop) (merchant snippet + badge) · [agent-store.json](https://pay.shangdian.me/.well-known/agent-store.json). Facilitator is mock until B402 merchant keys are set.
+Live: [pay.shangdian.me](https://pay.shangdian.me) (landing + mock buy) · [shop demo](https://pay.shangdian.me/shop) (merchant snippet + badge) · [agent-store.json](https://pay.shangdian.me/.well-known/agent-store.json) · [product intro](https://agentos.shangdian.me). Facilitator is mock until B402 merchant keys are set.
 
 Claude Desktop: merge `mcp/claude-desktop.json`. Local: `GATEWAY=http://localhost:8402`. Remote: `GATEWAY=https://pay.shangdian.me`. Then say *buy me Apple One under ten dollars*.
 

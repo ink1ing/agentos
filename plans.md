@@ -1,7 +1,7 @@
 # AgentPay — Binance Agent OS Mini Hackathon 作戰計畫
 
 > 建立:2026-09-02 · 規則確認:2026-09-03
-> 狀態:**Phase 3** — 公開閘道 https://pay.shangdian.me 已上線(mock facilitator);待錄影與 X 提交
+> 狀態:**Phase 3** — 公開閘道 https://pay.shangdian.me + 產品介紹頁 https://agentos.shangdian.me 已上線(mock facilitator);待錄影與 X 提交
 > 截止:**2026-09-08 23:59 UTC**(約 5 天)
 > 官方:[agent-os](https://www.binance.com/en/agent-os) · 規則細節見 `docs/hackathon-rules.md`
 

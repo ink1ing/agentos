@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentPay — agent-native checkout on BNB Chain</title>
+<meta name="description" content="AgentPay: one script makes any storefront readable and payable by AI agents via x402 + Binance OnchainPay (B402) with USDT on BNB Chain. Binance Agent OS Mini Hackathon, Track A.">
+<style>
+  :root {
+    --bg: #0b0d0c;
+    --ink: #e8eee9;
+    --mute: #8a968d;
+    --line: #1e2620;
+    --acid: #7dffb1;
+    --warn: #ffd27a;
+    --card: #121614;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; }
+  a { color: var(--acid); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header, main, footer { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; padding-top: 28px; }
+  .mark { font-weight: 700; letter-spacing: -0.03em; }
+  .mark span { color: var(--acid); }
+  nav { display: flex; gap: 18px; font-size: 13px; color: var(--mute); flex-wrap: wrap; }
+  h1 { font-size: clamp(36px, 6.5vw, 66px); line-height: 1.0; letter-spacing: -0.045em; margin: 48px 0 16px; font-weight: 650; }
+  h2 { font-size: 22px; letter-spacing: -0.02em; margin: 56px 0 6px; }
+  h2 small { display: block; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); font-weight: 500; margin-bottom: 6px; }
+  .lede { font-size: 18px; color: var(--mute); max-width: 42em; }
+  .lede b { color: var(--ink); }
+  .zh { font-size: 14px; color: var(--mute); border-left: 2px solid var(--line); padding-left: 12px; max-width: 42em; }
+  .chip { display: inline-block; border: 1px solid var(--line); border-radius: 999px; padding: 3px 10px; font-size: 12px; color: var(--warn); margin: 0 6px 6px 0; }
+  .chip.green { color: var(--acid); }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 20px 0; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .card h3 { margin: 0 0 8px; font-size: 16px; }
+  .card h3 code { color: var(--acid); }
+  .card p { margin: 0; font-size: 14px; color: var(--mute); }
+  .card p b { color: var(--ink); font-weight: 600; }
+  .kicker { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); margin: 0 0 8px; }
+  pre, code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre { margin: 16px 0; font-size: 13px; overflow-x: auto; color: var(--acid); background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; line-height: 1.7; }
+  pre .c { color: var(--mute); }
+  pre .h { color: var(--warn); }
+  code { font-size: 0.92em; }
+  .steps { list-style: none; padding: 0; margin: 16px 0; counter-reset: s; }
+  .steps li { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .steps li:last-child { border-bottom: 0; }
+  .steps li::before { counter-increment: s; content: counter(s, decimal-leading-zero); color: var(--acid); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; padding-top: 2px; }
+  .steps b { color: var(--ink); }
+  .steps small { color: var(--mute); display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 16px 0; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--mute); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500; }
+  td:first-child { color: var(--acid); font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 13px; white-space: nowrap; }
+  .cta { display: inline-block; background: var(--acid); color: #06140c; border-radius: 999px; padding: 12px 20px; font-weight: 600; font-size: 15px; margin: 8px 12px 8px 0; }
+  .cta:hover { text-decoration: none; opacity: 0.9; }
+  .cta.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .notice { border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 10px; padding: 14px 16px; font-size: 13.5px; color: var(--mute); margin: 20px 0; }
+  .notice b { color: var(--warn); }
+  footer { color: var(--mute); font-size: 13px; padding: 48px 24px 56px; border-top: 1px solid var(--line); margin-top: 64px; }
+  footer p { max-width: 60em; }
+  .wide { overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mark">Agent<span>Pay</span></div>
+  <nav>
+    <a href="https://pay.shangdian.me">live demo</a>
+    <a href="https://pay.shangdian.me/shop">merchant shop</a>
+    <a href="https://pay.shangdian.me/.well-known/agent-store.json">agent-store.json</a>
+    <a href="https://github.com/ink1ing/agentos">GitHub</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Every storefront,<br>open for AI agents.</h1>
+  <p class="lede">
+    Stripe put card checkout on the web. MoonPay put fiat on-ramps on it.
+    <b>AgentPay puts x402 checkout on any storefront</b> — one pasted script, and an AI agent
+    can read your catalog, quote a price, wait for a human "yes", and settle in
+    <b>USDT on BNB Chain</b> through Binance OnchainPay (B402). Built for the
+    <b>Binance Agent OS Mini Hackathon, Track A</b>.
+  </p>
+  <p class="zh">
+    中文摘要：AgentPay 讓任何店鋪貼一行腳本就能被 AI agent「讀懂並付款」——agent 讀目錄 → 報價 →
+    人類確認 → HTTP 402 → 透過 Binance OnchainPay 在 BNB Chain 上用 USDT 結算 → 取貨連結 + 收據。
+  </p>
+  <p style="margin-top:20px">
+    <span class="chip">Track A · Build an AI agent with Agent OS</span>
+    <span class="chip">deadline 2026-09-08 23:59 UTC</span>
+    <span class="chip green">live at pay.shangdian.me</span>
+  </p>
+  <p>
+    <a class="cta" href="https://pay.shangdian.me">Try the live demo →</a>
+    <a class="cta ghost" href="https://github.com/ink1ing/agentos">Read the code</a>
+  </p>
+
+  <h2><small>The problem</small>Agents can browse. They can't buy.</h2>
+  <p class="lede" style="font-size:16px">
+    AI agents already research products, compare prices, and draft orders — then stall at a
+    checkout form built for human eyes: passwords, card fields, CAPTCHAs. Meanwhile the
+    HTTP status code for exactly this moment, <b>402 Payment Required</b>, sat unused since 1997.
+    The x402 protocol revived it; Binance brought it to BNB Chain. What was missing is the
+    <b>merchant side</b>: a way for an ordinary small shop to opt in without rebuilding anything.
+    That's AgentPay.
+  </p>
+
+  <h2><small>Innovation</small>What's actually new here</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>1 · One-script merchant onboarding</h3>
+      <p>Paste <code>&lt;script src=".../snippet/agentpay.js"&gt;</code> like a Stripe or analytics tag.
+      The shop instantly exposes a machine-readable catalog at
+      <b><code>/.well-known/agent-store.json</code></b> — a convention any crawler or agent can discover.
+      No SDK, no backend rewrite. Demo is wired <b>read-only</b> to a real store (store.shangdian.me).</p>
+    </div>
+    <div class="card">
+      <h3>2 · Human-confirm gate before money moves</h3>
+      <p>Agents are eager; wallets are real. <code>POST /agent/quote</code> issues a <b>one-shot
+      confirm token (~120 s TTL)</b>. A buy without a valid token is refused with <b>409</b> —
+      the agent must show its human the exact price and get a "yes" first. Autonomy for the
+      boring parts, consent for the money part.</p>
+    </div>
+    <div class="card">
+      <h3>3 · Full x402 v2 handshake, end to end</h3>
+      <p>Not a mockup of the idea — the real protocol: <b>402</b> challenge with
+      <code>accepts[]</code>, one-shot nonce, base64 <code>X-PAYMENT</code> retry,
+      <code>X-PAYMENT-RESPONSE</code> receipt header, order + pickup link + emailed receipt.
+      Runs live in your browser on the demo page.</p>
+    </div>
+    <div class="card">
+      <h3>4 · Facilitator-pluggable: mock ⇄ Binance B402</h3>
+      <p>Settlement is one interface. Today it runs a <b>deterministic mock</b> (no real funds);
+      set four env vars (<code>B402_BASE_URL / CLIENT_ID / ACCESS_TOKEN / PRIVATE_KEY</code>) and the
+      same code settles through <b>Binance OnchainPay <code>/papi/v2/b402</code> verify + settle</b>
+      on BNB Chain. Zero code changes between demo and production.</p>
+    </div>
+  </div>
+
+  <h2><small>Architecture</small>One purchase, seven steps</h2>
+  <ol class="steps">
+    <li><div><b>Agent discovers the shop.</b><small>MCP tool <code>list_products</code> reads <code>/.well-known/agent-store.json</code> — digital SKUs only, prices in cents, live from the real catalog.</small></div></li>
+    <li><div><b>Agent quotes.</b><small><code>quote_product</code> → price, asset (USDT), network (BNB Chain), and a one-shot <code>confirmToken</code>.</small></div></li>
+    <li><div><b>Human says yes.</b><small>The agent presents the quote; only a human confirmation unlocks the token. No token → <b>HTTP 409</b>.</small></div></li>
+    <li><div><b>Server challenges: HTTP 402.</b><small>x402 v2 payload: <code>accepts[]</code> (schemes <code>exact</code> × <code>eip3009 | permit2-exact</code>), amount, payTo, fresh nonce.</small></div></li>
+    <li><div><b>Agent pays.</b><small>Retries with base64 <code>X-PAYMENT</code> header — a signed USDT authorization for BNB Chain.</small></div></li>
+    <li><div><b>Facilitator settles.</b><small>Gateway calls Binance OnchainPay B402 <code>verify</code> → <code>settle</code> (mock in demo). Binance handles chain interaction and gas.</small></div></li>
+    <li><div><b>Delivery + receipt.</b><small><code>200 OK</code> with tx hash, <code>X-PAYMENT-RESPONSE</code>, pickup URL, and an emailed receipt. Order queryable via <code>get_order</code>.</small></div></li>
+  </ol>
+  <pre class="wide"><span class="c"># the whole protocol, visible in curl</span>
+POST /agent/quote/apple-one          <span class="c">→ 200 { amount: "$8.88", confirmToken }</span>
+POST /agent/buy/apple-one            <span class="c">→ 409 confirmation required</span>
+POST /agent/buy/apple-one  <span class="h">X-Confirm-Token: …</span>  <span class="c">→ 402 { accepts: [eip3009, permit2-exact] }</span>
+POST /agent/buy/apple-one  <span class="h">X-PAYMENT: base64(…)</span> <span class="c">→ 200 { txHash, pickupUrl }  + X-PAYMENT-RESPONSE</span></pre>
+
+  <h2><small>The stack</small>How AgentPay uses Binance · BSC · x402 · AI agents</h2>
+  <div class="wide"><table>
+    <tr><th>Layer</th><th>What it is</th><th>How AgentPay uses it</th></tr>
+    <tr>
+      <td>Binance<br>Agent OS</td>
+      <td>Binance's developer platform connecting AI apps to trading, wallet, payment and on-chain rails — MCP server, Skill Hub, Agentic Wallet, and Binance Pay x402.</td>
+      <td>AgentPay is a <b>Track A agent built on the Agent OS payment rail</b>: it targets Binance Pay x402 as its settlement path and respects the platform's <b>$20/day x402 limit</b> by hard-capping every transaction at <b>$10</b> in the gateway.</td>
+    </tr>
+    <tr>
+      <td>Binance<br>OnchainPay<br>(B402)</td>
+      <td>Binance's x402 facilitator on BNB Chain: merchants call simple HTTP APIs (<code>supported / verify / settle</code>); Binance verifies signatures, submits on-chain, and pays gas.</td>
+      <td>The gateway's facilitator module implements the <b>B402 API with RSA request signing</b> (<code>@bnb-chain/b402</code>-compatible). Demo mode is a faithful mock; production is a config switch, not a rewrite.</td>
+    </tr>
+    <tr>
+      <td>BNB Chain<br>(BSC)</td>
+      <td>EVM chain with ~0.45 s blocks, ~1 s finality and cent-level gas — one of the largest stablecoin networks (~$14 B supply, USDT-dominant).</td>
+      <td>All payments are <b>USDT (BEP-20) on BNB Chain</b>, declared in every quote and 402 challenge. Fast finality and near-zero fees are what make <b>$0.5–$10 agent micro-purchases</b> economically sane.</td>
+    </tr>
+    <tr>
+      <td>x402<br>protocol</td>
+      <td>Open standard (Coinbase-initiated, now Linux Foundation / x402 Foundation) that revives HTTP 402 for machine-native stablecoin payments.</td>
+      <td>AgentPay speaks <b>x402 v2 verbatim</b> — 402 challenge, <code>X-PAYMENT</code>, <code>X-PAYMENT-RESPONSE</code>, facilitator verify/settle — so <b>any</b> x402-capable client can pay, not just ours.</td>
+    </tr>
+    <tr>
+      <td>AI agents<br>(MCP)</td>
+      <td>Model Context Protocol — the same standard Agent OS uses to plug Binance into Claude, ChatGPT, Cursor and more.</td>
+      <td>Ships an <b>MCP server with 4 tools</b>: <code>list_products · quote_product · buy_product · get_order</code>. Point Claude Desktop at it and say "buy me the Apple One seat" — the agent does the rest, minus the human "yes".</td>
+    </tr>
+  </table></div>
+
+  <h2><small>Compliance</small>Built inside the rules</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Hackathon fit</h3>
+      <p><b>Track A — Build an AI agent using Agent OS.</b> Submission: video/demo + GitHub repo via X (follow @Binance, repost, quote-tweet) + official survey, before <b>2026-09-08 23:59 UTC</b>.</p>
+    </div>
+    <div class="card">
+      <h3>Spending guardrails</h3>
+      <p>Per-tx cap <b>$10 &lt; the $20/day Agent OS x402 limit</b>; human confirm token required before any 402 is even issued; one-shot nonces prevent replay.</p>
+    </div>
+    <div class="card">
+      <h3>No real funds in demo</h3>
+      <p>The public demo settles through a <b>mock facilitator</b> — deterministic fake tx hashes, no blockchain writes, no custody. Real settlement activates only with Binance-issued B402 credentials.</p>
+    </div>
+    <div class="card">
+      <h3>Real store, zero risk</h3>
+      <p>Catalog is read <b>read-only</b> from a genuine storefront; the production database, order flow and payment paths of the store are untouched.</p>
+    </div>
+  </div>
+
+  <div class="notice">
+    <b>Disclaimer.</b> AgentPay is a hackathon prototype, not a financial product or an offer of one.
+    Nothing here is financial advice. The Binance Agent OS Mini Hackathon is not available in the
+    United States, United Kingdom, European Economic Area, Hong Kong, Singapore, or other
+    prohibited jurisdictions — see Binance's official list. Crypto payments involve risk; digital
+    asset transfers are irreversible.
+  </div>
+
+  <h2><small>See it</small>Three links, sixty seconds</h2>
+  <p>
+    <a class="cta" href="https://pay.shangdian.me">1 · Run a mock purchase in your browser</a>
+    <a class="cta ghost" href="https://pay.shangdian.me/shop">2 · See the merchant's one-line install</a>
+    <a class="cta ghost" href="https://github.com/ink1ing/agentos">3 · Audit the code</a>
+  </p>
+</main>
+
+<footer>
+  <p><b style="color:var(--ink)">AgentPay</b> · Binance Agent OS Mini Hackathon, Track A · MIT-licensed prototype · <a href="https://github.com/ink1ing/agentos">github.com/ink1ing/agentos</a></p>
+  <p>References:
+    <a href="https://www.binance.com/en/agent-os">Binance Agent OS</a> ·
+    <a href="https://www.binance.com/binancex402">Binance Pay x402</a> ·
+    <a href="https://github.com/coinbase/x402">x402 protocol</a> ·
+    <a href="https://www.bnbchain.org">BNB Chain</a> ·
+    <a href="https://developers.binance.com/en/docs/agent-native/mcp-server/agentic">Binance MCP Server</a>
+  </p>
+</footer>
+
+</body>
+</html>
