@@ -12,7 +12,7 @@ Record 1920×1080, 16:9. English VO. Burn English subs. Keep a silent B-roll of 
 | 0:16–0:20 | You type "yes". `buy_product` with confirmToken | "I confirm. The agent cannot pay without this token." |
 | 0:20–0:28 | Terminal or network panel: HTTP 402 accepts[] → X-PAYMENT → 200 + tx hash | "HTTP 402, x402 v2, Binance B402 settlement path." |
 | 0:28–0:36 | Pickup page + HTML receipt (order id, tx, timeline) | "Pickup link and receipt. No new account for the buyer." |
-| 0:36–0:40 | End card: AgentPay · Track A · pay.shangdian.me · github.com/ink1ing/agentos | "AgentPay. Track A. GitHub in the post." |
+| 0:36–0:40 | End card: AgentPay · Track A · pay.shangdian.me · github.com/silasxbt/agentos | "AgentPay. Track A. GitHub in the post." |
 
 ## Backup if Claude Desktop flakes
 

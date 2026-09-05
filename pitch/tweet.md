@@ -13,7 +13,7 @@ One script makes a shop agent-ready. Claude lists SKUs, you confirm, x402 pays U
 
 Demo: Apple One $8.88 from a live catalog.
 Live: https://pay.shangdian.me
-GitHub: https://github.com/ink1ing/agentos
+GitHub: https://github.com/silasxbt/agentos
 Video: <VIDEO — unlisted YouTube / X upload>
 
 Built on Agent OS Pay (x402) + MCP.
@@ -27,11 +27,11 @@ AgentPay is the x402 MoonPay for merchants: paste one `<script>`, get `/.well-kn
 We wired it to a real digital-goods store (read-only). Live gateway: https://pay.shangdian.me. Demo SKU: Apple One $8.88, under the Agent OS $20/day x402 cap.
 
 Track A · Agent OS Mini Hackathon
-GitHub: https://github.com/ink1ing/agentos
+GitHub: https://github.com/silasxbt/agentos
 Video: <VIDEO — unlisted YouTube / X upload>
 
 Not financial advice. Not available in prohibited jurisdictions.
 
 ## Quote-tweet first line (what people see unexpanded)
 
-AgentPay — one-line x402 checkout for AI agents. Claude buys Apple One in USDT on BNB Chain. Track A. <VIDEO — unlisted YouTube / X upload> https://github.com/ink1ing/agentos
+AgentPay — one-line x402 checkout for AI agents. Claude buys Apple One in USDT on BNB Chain. Track A. <VIDEO — unlisted YouTube / X upload> https://github.com/silasxbt/agentos

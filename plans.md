@@ -67,7 +67,7 @@ Escrow 合約、KYC、真 SMTP、假商店 **全部砍掉**。評審看 30 秒�
 
 ### Day 3(9/5–9/6)— 影片與 GitHub
 - [ ] 30–45 秒 demo 影片腳本(見 §4),錄兩條:一條成功、一條備用
-- [x] GitHub 公開 repo https://github.com/ink1ing/agentos ,README 英文
+- [x] GitHub 公開 repo https://github.com/silasxbt/agentos ,README 英文
 - [x] 公開落地頁可走 quote → 402 → mock settle → pickup;截圖可直接從 pay.shangdian.me 抓
 
 ### Day 4(9/6–9/7)— 提交包
